@@ -3,6 +3,10 @@
 
 <?php
 
+if (isset($_SESSION['username'])) {
+    header('Location: http://localhost/clean-blog/index.php');
+}
+
 if (isset($_POST['submit'])) {
     if ($_POST['email'] == '' || $_POST['email'] == 'password') {
         echo "Please all fields are required";
@@ -28,7 +32,7 @@ if (isset($_POST['submit'])) {
         if ($rowCount > 0) {
             if (password_verify($password, $result['password'])) {
 
-                $_SESSION['username'] = $result['password'];
+                $_SESSION['username'] = $result['username'];
                 $_SESSION['email'] = $result['email'];
                 $_SESSION['id'] = $result['id'];
 
