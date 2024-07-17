@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     } else {
 
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password = $_POST['password'];
 
 
 
@@ -27,8 +27,17 @@ if (isset($_POST['submit'])) {
 
         if ($rowCount > 0) {
             if (password_verify($password, $result['password'])) {
-                echo "logged in";
+
+                $_SESSION['username'] = $result['password'];
+                $_SESSION['email'] = $result['email'];
+                $_SESSION['id'] = $result['id'];
+
+                header("Location: http://localhost/clean-blog/index.php");
+            } else {
+                echo "Check your password";
             }
+        } else {
+            echo "User not found";
         }
     }
 }
