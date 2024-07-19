@@ -10,8 +10,9 @@ if (isset($_POST['submit'])) {
     $image = $_FILES['image']['name'];
     $path = 'images/' . basename($image);
     $user_id = $_SESSION['id'];
+    $username = $_SESSION['username'];
 
-    $stmt = $conn->prepare("INSERT INTO $dbname.posts (title, subtitle, body, image, user_id) VALUES (:title, :subtitle, :body, :image, :user_id)");
+    $stmt = $conn->prepare("INSERT INTO $dbname.posts (title, subtitle, body, image, user_id, username) VALUES (:title, :subtitle, :body, :image, :user_id, :username)");
 
     $stmt->execute([
         'title' => $title,
@@ -19,7 +20,9 @@ if (isset($_POST['submit'])) {
         'body' => $body,
         'image' => $image,
         'user_id' => $user_id,
+        'username' => $username
     ]);
+
 
 
     if (move_uploaded_file($_FILES['image']['tmp_name'], $path)) {
