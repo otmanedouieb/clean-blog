@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 
-<form method="POST" action="login.php">
+<form method="POST" action="login.php" enctype="multipart/form-data">
     <!-- Email input -->
     <div class="form-outline mb-4">
         <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
