@@ -1,125 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Clean Blog - Start Bootstrap Theme</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../about.html">About</a></li>
-                       
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Page Header-->
-        <header class="masthead" style="background-image: url('../assets/img/home-bg.jpg')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>Clean Blog</h1>
-                            <span class="subheading">A Blog Theme by Start Bootstrap</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-       
-                <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
+<?php include('../includes/header.php') ?>
+<?php require('../config/config.php') ?>
 
-            <form method="POST" action="">
-              <!-- Email input -->
-              <div class="form-outline mb-4">
-                <input type="text" name="email" id="form2Example1" class="form-control" placeholder="title" />
-               
-              </div>
-
-              <div class="form-outline mb-4">
-                <input type="text" name="email" id="form2Example1" class="form-control" placeholder="subtitle" />
-            </div>
-
-              <div class="form-outline mb-4">
-                <input type="text" name="email" id="form2Example1" class="form-control" placeholder="body" />
-            </div>
-
-              
-             <div class="form-outline mb-4">
-                <input type="file" name="email" id="form2Example1" class="form-control" placeholder="image" />
-            </div>
+<?php
 
 
-              <!-- Submit button -->
-              <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Update</button>
-
-          
-            </form>
 
 
-           
-        </div>
-    <!-- Footer-->
-        <footer class="border-top">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <ul class="list-inline text-center">
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="../js/script.js"></script>
-    </body>
-</html>
+
+if (isset($_GET['id'])) {
+
+    $stmt = $conn->prepare("SELECT * FROM $dbname.posts WHERE id = :id");
+    $stmt->bindParam('id', $_GET['id']);
+    $stmt->execute();
+
+    $fetch = $stmt->fetch(PDO::FETCH_OBJ);
+
+
+    if (isset($_POST['update'])) {
+
+
+        $id = $_GET['id'];
+
+        $stmt = $conn->prepare("UPDATE $dbname.posts set title=:title, subtitle=:subtitle, body=:body, image=:image WHERE id = $id");
+
+        $stmt->execute([
+            'title' => $_POST['title'],
+            'subtitle' => $_POST['subtitle'],
+            'body' => $_POST['body'],
+            'image' => $_FILES['image']['name']
+        ]);
+        $path = 'images/' . basename($_FILES['image']['name']);
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $path)) {
+            header('Location: http://localhost/clean-blog/index.php');
+        }
+    }
+}
+
+
+
+
+
+?>
+
+<form method="POST" action="update.php<?= isset($_GET['id']) ? '?id=' . $_GET['id'] : '' ?>" enctype="multipart/form-data">
+    <!-- title input -->
+    <div class="form-outline mb-4">
+        <input type="text" name="title" id="form2Example1" class="form-control" placeholder="title" value="<?= $fetch->title ?>" />
+
+    </div>
+    <!-- subtitle input -->
+    <div class="form-outline mb-4">
+        <input type="text" name="subtitle" id="form2Example1" class="form-control" placeholder="subtitle" value="<?= $fetch->subtitle ?>" />
+    </div>
+    <!-- subtitle input -->
+    <div class=" form-outline mb-4">
+        <textarea type="text" name="body" id="form2Example1" class="form-control" placeholder="body" rows="8"><?= $fetch->body ?></textarea>
+    </div>
+    <!-- image input -->
+    <div class="form-outline mb-4">
+        <img id="previewImg" src="http://localhost/clean-blog/posts/images/<?= $fetch->image ?>" class="img-fluid mx-auto d-block" alt="<?= $fetch->title ?>">
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="file" name="image" id="imgPreview" class="form-control" placeholder="image" />
+    </div>
+    <!-- Submit button -->
+    <button type="submit" name="update" value="update" class="btn btn-primary  mb-4 text-center">update</button>
+
+
+</form>
+
+
+<script>
+    const imgInput = document.getElementById("imgPreview");
+    const img = document.getElementById("previewImg");
+    imgInput.onchange = (event) => {
+        const [file] = imgInput.files;
+        img.src = URL.createObjectURL(file);
+    }
+</script>
+
+<?php require('../includes/footer.php') ?>
