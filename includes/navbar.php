@@ -43,7 +43,7 @@ session_start();
                                 <?= $_SESSION['username'] ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="http://localhost/clean-blog/users/profile.php?id=<?= $_SESSION['id'] ?>">Profile</a></li>
                                 <li><a class="dropdown-item" href="http://localhost/clean-blog/auth/logout.php">Logout</a></li>
                             </ul>
                         </li>

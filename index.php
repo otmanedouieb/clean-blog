@@ -27,22 +27,24 @@ $categories = $stmt->fetchAll(PDO::FETCH_OBJ);
 <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
         <?php foreach ($fetch as $post) : ?>
-            <!-- Post preview-->
-            <div class="post-preview">
-                <a href="http://localhost/clean-blog/posts/post.php?id=<?= $post['id'] ?>">
-                    <h2 class="post-title"><?= $post['title'] ?></h2>
-                    <h3 class="post-subtitle"><?= $post['subtitle'] ?></h3>
-                </a>
-                <p class="post-meta">
-                    Posted by
+            <?php if ($post['status'] == 1) : ?>
+                <!-- Post preview-->
+                <div class="post-preview">
+                    <a href="http://localhost/clean-blog/posts/post.php?id=<?= $post['id'] ?>">
+                        <h2 class="post-title"><?= $post['title'] ?></h2>
+                        <h3 class="post-subtitle"><?= $post['subtitle'] ?></h3>
+                    </a>
+                    <p class="post-meta">
+                        Posted by
 
 
-                    <a href="#!"><?= $post['username'] ?></a>
-                    on <?= format_date($post['created_at']) ?>
-                </p>
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
+                        <a href="#!"><?= $post['username'] ?></a>
+                        on <?= format_date($post['created_at']) ?>
+                    </p>
+                </div>
+                <!-- Divider-->
+                <hr class="my-4" />
+            <?php endif ?>
         <?php endforeach ?>
         <!-- Pager-->
 
